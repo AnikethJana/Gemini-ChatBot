@@ -25,7 +25,7 @@ $currentModel = getCurrentModel();
     <link rel="stylesheet" href="styles/back.css">
     <script src="https://cdn.jsdelivr.net/npm/marked@4.0.17/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/highlight.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github-dark.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github-dark.min.css"> -->
 </head>
 <body>
 <div class="gradient"></div>
