@@ -508,7 +508,7 @@ button.clearChat svg {
 .chat-container::-webkit-scrollbar-thumb:hover {
     background: var(--accent);
 }
-#intro {
+.chat-container #intro {
     color: rgb(255, 255, 255);
     display: block;
     font-family: ui-sans-serif, -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";

@@ -3,9 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const chatContainer = document.getElementById('chatContainer');
     const messageInput = document.getElementById('messageInput');
     const searchBtn = document.getElementById('searchBtn');
-
+    const intro = document.querySelector('.chat-container #intro');
     let webSearchEnabled = false;
-    const intro = document.getElementById('intro');
     function scrollToBottom() {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
@@ -92,7 +91,24 @@ function addMessageToChat(message, className) {
         }, 100);
     }
 }
+function AddHeader() {        
 
+    const intro = document.querySelector('.chat-container #intro');
+
+        intro.innerHTML = 'Where should we begin?';
+        intro.style.display = 'inline';
+        intro.style.visibility = 'visible';
+        intro.style.opacity = '1';
+        intro.style.fontSize = '28px';
+        intro.style.fontWeight = '400';
+        intro.style.letterSpacing = '0.38px';
+        intro.style.lineHeight = '34px';
+        intro.style.paddingInlineEnd = '4px';
+        intro.style.paddingInlineStart = '4px';
+        intro.style.textAlign = 'center';
+        intro.style.textWrapStyle = 'pretty';
+    
+};
 function clearChat() {
     const formData = new FormData();
     formData.append('action', 'clear');
@@ -111,7 +127,6 @@ function clearChat() {
         })
         .catch(error => {
             console.error('Error clearing chat:', error);
-            alert('Failed to clear chat history.');
         });
 }
 
