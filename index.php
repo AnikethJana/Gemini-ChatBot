@@ -23,6 +23,7 @@ $currentModel = getCurrentModel();
     <title>ChatBot</title>
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/generating-animation.css">
+    <link rel="stylesheet" href="styles/modal.css">
     <link rel="stylesheet" href="styles/back.css">
     <script src="https://cdn.jsdelivr.net/npm/marked@4.0.17/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/highlight.min.js"></script>
@@ -43,6 +44,7 @@ $currentModel = getCurrentModel();
                 <path d="M12.1338 5.94433C12.3919 5.77382 12.7434 5.80202 12.9707 6.02929C13.1979 6.25656 13.2261 6.60807 13.0556 6.8662L12.9707 6.9707L8.47067 11.4707C8.21097 11.7304 7.78896 11.7304 7.52926 11.4707L3.02926 6.9707L2.9443 6.8662C2.77379 6.60807 2.80199 6.25656 3.02926 6.02929C3.25653 5.80202 3.60804 5.77382 3.86617 5.94433L3.97067 6.02929L7.99996 10.0586L12.0293 6.02929L12.1338 5.94433Z"></path>
             </svg>
         </button>
+        <button type="button" id="gemini-api-key-btn" class="model-switcher-btn">Set Gemini API Key</button>
         <div id="model-dropdown" class="model-dropdown">
             <?php foreach (models as $modelKey => $modelName): ?>
                 <div class="model-option <?php echo ($modelKey === $currentModel) ? 'selected' : ''; ?>" 
@@ -96,5 +98,24 @@ $currentModel = getCurrentModel();
     </div>
     <script src="./scripts/formSubmit.js"></script>
     <script src="./scripts/modelSelector.js"></script>
+    <div id="gemini-api-key-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Configure Gemini API Key</h2>
+            <label for="gemini-api-key-input">Enter Your Gemini API Key</label>
+            <input type="password" id="gemini-api-key-input" placeholder="Enter your API key...">
+            <div class="modal-buttons">
+                <button id="save-gemini-api-key-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="20" height="20" fill="currentColor"><path d="M320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM404.4 276.7L324.4 404.7C320.2 411.4 313 415.6 305.1 416C297.2 416.4 289.6 412.8 284.9 406.4L236.9 342.4C228.9 331.8 231.1 316.8 241.7 308.8C252.3 300.8 267.3 303 275.3 313.6L302.3 349.6L363.7 251.3C370.7 240.1 385.5 236.6 396.8 243.7C408.1 250.8 411.5 265.5 404.4 276.8z"/></svg>
+                    Save
+                </button>
+                <button id="cancel-gemini-api-key-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="20" height="20" fill="currentColor"><path d="M320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM231 231C240.4 221.6 255.6 221.6 264.9 231L319.9 286L374.9 231C384.3 221.6 399.5 221.6 408.8 231C418.1 240.4 418.2 255.6 408.8 264.9L353.8 319.9L408.8 374.9C418.2 384.3 418.2 399.5 408.8 408.8C399.4 418.1 384.2 418.2 374.9 408.8L319.9 353.8L264.9 408.8C255.5 418.2 240.3 418.2 231 408.8C221.7 399.4 221.6 384.2 231 374.9L286 319.9L231 264.9C221.6 255.5 221.6 240.3 231 231z"/></svg>
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="success-message" class="success-message" style="display: none;">Saved successfully</div>
 </body>
 </html>

@@ -2,6 +2,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const modelSwitcher = document.getElementById('model-switcher');
     const modelDropdown = document.getElementById('model-dropdown');
     const modelOptions = document.querySelectorAll('.model-option');
+    const geminiApiKeyBtn = document.getElementById('gemini-api-key-btn');
+    const geminiModal = document.getElementById('gemini-api-key-modal');
+    const closeBtn = document.querySelector('.close-btn');
+    const saveBtn = document.getElementById('save-gemini-api-key-btn');
+    const cancelBtn = document.getElementById('cancel-gemini-api-key-btn');
+    const apiKeyInput = document.getElementById('gemini-api-key-input');
+    const successMessage = document.getElementById('success-message');
 
     // Toggle dropdown
     modelSwitcher.addEventListener('click', function(e) {
@@ -79,6 +86,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
         }
     });
+
+    // Gemini API Key Modal Logic
+    geminiApiKeyBtn.addEventListener('click', () => {
+        geminiModal.style.display = 'flex';
+    });
+
+    closeBtn.addEventListener('click', () => {
+        geminiModal.style.display = 'none';
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        geminiModal.style.display = 'none';
+    });
+
+    saveBtn.addEventListener('click', () => {
+        const apiKey = apiKeyInput.value.trim();
+        if (apiKey) {
+            localStorage.setItem('gemini_api_key', apiKey);
+            geminiModal.style.display = 'none';
+            apiKeyInput.value = '';
+            showSuccessMessage();
+        } else {
+            alert('API key cannot be empty.');
+        }
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === geminiModal) {
+            geminiModal.style.display = 'none';
+        }
+    });
+
+    function showSuccessMessage() {
+        successMessage.style.display = 'block';
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 3000);
+    }
 });
 
 // Function to change model via AJAX
