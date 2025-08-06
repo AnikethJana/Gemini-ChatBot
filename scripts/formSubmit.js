@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         addMessageToChat(message, 'user-message');
 
+        // Create and position the generating indicator after the user message
         const indicator = document.querySelector('.generating-indicator');
         indicator.style.display = 'flex';
         indicator.innerHTML = `
@@ -41,10 +42,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="dot"></div>
             </div>
         `;
+        
+        // Move the indicator to appear after the user message
+        const userMessage = chatContainer.lastElementChild;
+        if (userMessage && userMessage.classList.contains('user-message')) {
+            userMessage.insertAdjacentElement('afterend', indicator);
+        }
+        
+        // Scroll to show the indicator
+        chatContainer.scrollTop = chatContainer.scrollHeight;
 
         const formData = new FormData();
         formData.append('message', message);
         formData.append('webSearch', webSearchEnabled);
+        
+        // Add user's API key if available
+        const userApiKey = localStorage.getItem('gemini_api_key');
+        if (userApiKey) {
+            formData.append('user_api_key', userApiKey);
+        }
 
         try {
             const response = await fetch('response.php', {
@@ -134,7 +150,29 @@ function clearChat() {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                document.getElementById('chatContainer').innerHTML = '';
+                const chatContainer = document.getElementById('chatContainer');
+                chatContainer.innerHTML = '';
+                
+                // Reset intro message
+                const intro = document.createElement('h1');
+                intro.id = 'intro';
+                intro.textContent = 'Where should we begin?';
+                intro.style.color = 'rgb(255, 255, 255)';
+                intro.style.display = 'block';
+                intro.style.fontFamily = 'ui-sans-serif, -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"';
+                intro.style.fontSize = '28px';
+                intro.style.fontWeight = '400';
+                intro.style.letterSpacing = '0.38px';
+                intro.style.lineHeight = '34px';
+                intro.style.paddingInlineEnd = '4px';
+                intro.style.paddingInlinestart = '4px';
+                intro.style.textAlign = 'center';
+                intro.style.textWrapStyle = 'pretty';
+                intro.style.whiteSpaceCollapse = 'preserve';
+                intro.style.width = '321.288px';
+                intro.style.height = '34px';
+                
+                chatContainer.appendChild(intro);
                 chatContainer.scrollTop = 0;
             }
         })

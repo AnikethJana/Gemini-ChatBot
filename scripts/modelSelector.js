@@ -4,11 +4,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const modelOptions = document.querySelectorAll('.model-option');
     const geminiApiKeyBtn = document.getElementById('gemini-api-key-btn');
     const geminiModal = document.getElementById('gemini-api-key-modal');
-    const closeBtn = document.querySelector('.close-btn');
     const saveBtn = document.getElementById('save-gemini-api-key-btn');
     const cancelBtn = document.getElementById('cancel-gemini-api-key-btn');
     const apiKeyInput = document.getElementById('gemini-api-key-input');
     const successMessage = document.getElementById('success-message');
+    const validationMessage = document.getElementById('api-key-validation-message');
+
+    // Debug: Check if all elements are found
+    console.log('Elements found:', {
+        modelSwitcher: !!modelSwitcher,
+        modelDropdown: !!modelDropdown,
+        geminiApiKeyBtn: !!geminiApiKeyBtn,
+        geminiModal: !!geminiModal,
+        saveBtn: !!saveBtn,
+        cancelBtn: !!cancelBtn,
+        apiKeyInput: !!apiKeyInput,
+        successMessage: !!successMessage,
+        validationMessage: !!validationMessage
+    });
 
     // Toggle dropdown
     modelSwitcher.addEventListener('click', function(e) {
@@ -88,41 +101,114 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Gemini API Key Modal Logic
-    geminiApiKeyBtn.addEventListener('click', () => {
-        geminiModal.style.display = 'flex';
-    });
+    if (geminiApiKeyBtn && geminiModal && saveBtn && cancelBtn && apiKeyInput && successMessage && validationMessage) {
+        geminiApiKeyBtn.addEventListener('click', () => {
+            console.log('Gemini API key button clicked');
+            geminiModal.style.display = 'flex';
+            apiKeyInput.focus();
+            hideValidationMessage();
+        });
 
-    closeBtn.addEventListener('click', () => {
-        geminiModal.style.display = 'none';
-    });
-
-    cancelBtn.addEventListener('click', () => {
-        geminiModal.style.display = 'none';
-    });
-
-    saveBtn.addEventListener('click', () => {
-        const apiKey = apiKeyInput.value.trim();
-        if (apiKey) {
-            localStorage.setItem('gemini_api_key', apiKey);
+        cancelBtn.addEventListener('click', () => {
+            console.log('Cancel button clicked');
             geminiModal.style.display = 'none';
-            apiKeyInput.value = '';
-            showSuccessMessage();
-        } else {
-            alert('API key cannot be empty.');
-        }
-    });
+            hideValidationMessage();
+        });
 
-    window.addEventListener('click', (e) => {
-        if (e.target === geminiModal) {
-            geminiModal.style.display = 'none';
-        }
-    });
+        saveBtn.addEventListener('click', async () => {
+            console.log('Save button clicked');
+            const apiKey = apiKeyInput.value.trim();
+            
+            if (!apiKey) {
+                showValidationMessage('API key cannot be empty.', 'error');
+                return;
+            }
+
+            // Show loading message
+            showValidationMessage('Validating API key...', 'loading');
+            saveBtn.disabled = true;
+
+            try {
+                const response = await fetch('validate_api_key.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ api_key: apiKey })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // API key is valid, save it
+                    localStorage.setItem('gemini_api_key', apiKey);
+                    console.log('API key validated and saved to localStorage');
+                    showValidationMessage(data.message, 'success');
+                    
+                    // Close modal after a brief delay
+                    setTimeout(() => {
+                        geminiModal.style.display = 'none';
+                        apiKeyInput.value = '';
+                        hideValidationMessage();
+                        showSuccessMessage();
+                    }, 1500);
+                } else {
+                    // API key is invalid
+                    showValidationMessage(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error validating API key:', error);
+                showValidationMessage('Failed to validate API key. Please check your connection.', 'error');
+            } finally {
+                saveBtn.disabled = false;
+            }
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === geminiModal) {
+                console.log('Clicked outside modal');
+                geminiModal.style.display = 'none';
+                hideValidationMessage();
+            }
+        });
+
+        // Add keyboard support for modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && geminiModal.style.display === 'flex') {
+                console.log('Escape key pressed');
+                geminiModal.style.display = 'none';
+                hideValidationMessage();
+            }
+        });
+
+        // Add Enter key support for saving
+        apiKeyInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveBtn.click();
+            }
+        });
+    } else {
+        console.error('Some Gemini API key modal elements are missing');
+    }
 
     function showSuccessMessage() {
+        console.log('Showing success message');
         successMessage.style.display = 'block';
         setTimeout(() => {
             successMessage.style.display = 'none';
         }, 3000);
+    }
+
+    function showValidationMessage(message, type) {
+        validationMessage.textContent = message;
+        validationMessage.className = `validation-message ${type}`;
+        validationMessage.style.display = 'block';
+    }
+
+    function hideValidationMessage() {
+        validationMessage.style.display = 'none';
+        validationMessage.className = 'validation-message';
     }
 });
 

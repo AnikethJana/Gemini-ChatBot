@@ -71,6 +71,7 @@ pre code {
     align-items: center;
     margin-bottom: 2rem;
     padding: 0 10px;
+    gap: 20px;
 }
 
 .header h1 {
@@ -95,6 +96,9 @@ pre code {
 /* Model selector styles */
 .model-selector {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .model-switcher-btn {
@@ -121,6 +125,28 @@ pre code {
 .model-switcher-btn:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Specific styling for Gemini API key button */
+#gemini-api-key-btn {
+    padding: 8px;
+    min-width: 36px;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+#gemini-api-key-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+#gemini-api-key-btn:active {
+    transform: translateY(0);
+}
+
+#gemini-api-key-btn svg {
+    width: 16px;
+    height: 16px;
 }
 
 .dropdown-icon {
@@ -267,19 +293,21 @@ pre code {
 }
 
 /* Floating form styles */
-.form {
+.form,
+#chatForm {
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 10px;
-    background: rgba(33, 33, 33, 0.95);
+    background: rgba(33, 33, 33, 0.8);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: 15px 20px;
     border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     z-index: 1000;
     width: 90%;
     max-width: 768px;
@@ -299,6 +327,7 @@ pre code {
     min-width: 0;
     margin: 0;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 #messageInput:focus {
@@ -324,6 +353,7 @@ button {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     margin: 0;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     white-space: nowrap;
 }
 
@@ -362,6 +392,7 @@ button.clearChat svg {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     margin: 0;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     white-space: nowrap;
     min-width: 44px;
 }
@@ -387,6 +418,21 @@ button.clearChat svg {
 
 /* Responsive design for mobile */
 @media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .header h1 {
+        text-align: center;
+        font-size: 18px;
+    }
+    
+    .model-selector {
+        justify-content: center;
+    }
+    
     .form {
         width: 95%;
         padding: 12px 15px;
