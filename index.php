@@ -22,6 +22,7 @@ $currentModel = getCurrentModel();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatBot</title>
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/generating-animation.css">
     <link rel="stylesheet" href="styles/back.css">
     <script src="https://cdn.jsdelivr.net/npm/marked@4.0.17/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/highlight.min.js"></script>
@@ -55,6 +56,9 @@ $currentModel = getCurrentModel();
 
 <div class="chat-container" id="chatContainer">
         <h1 id="intro">Where should we begin?</h1>
+        <div class="generating-indicator" style="display: none;">
+            <span class="C2Yw4Cux1FcFGObGPRc2 wZ4JdaHxSAhGy1HoNVja yPVtygfW3yi77pB7G6Se">Generating response...</span>
+        </div>
         <?php returnText(); ?>
         <script>
             // Configure marked for syntax highlighting

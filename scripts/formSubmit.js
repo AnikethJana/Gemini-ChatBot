@@ -31,6 +31,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         addMessageToChat(message, 'user-message');
 
+        const indicator = document.querySelector('.generating-indicator');
+        indicator.style.display = 'flex';
+        indicator.innerHTML = `
+            <span>Generating response...</span>
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        `;
+
         const formData = new FormData();
         formData.append('message', message);
         formData.append('webSearch', webSearchEnabled);
@@ -57,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         } catch (error) {
             addMessageToChat('Error: Failed to get response. Please try again.', 'bot-message');
+        } finally {
+            indicator.style.display = 'none';
         }
     });
 });
