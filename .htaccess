@@ -1,0 +1,43 @@
+RewriteEngine On
+
+# Allow AJAX endpoints (POST requests only)
+RewriteCond %{REQUEST_METHOD} POST
+RewriteCond %{REQUEST_URI} ^/(response|validate_api_key)\.php$
+RewriteRule ^(.*)$ - [L]
+
+# Deny direct GET access to PHP files (except index.php)
+RewriteCond %{REQUEST_METHOD} GET
+RewriteCond %{REQUEST_URI} ^/.*\.php$
+RewriteCond %{REQUEST_URI} !^/index\.php$
+RewriteRule ^(.*)$ - [F]
+
+# Standard front controller routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+
+# Deny access to sensitive files
+<Files "config.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "returnText.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files ".env">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files ".gitignore">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files ".htaccess">
+    Order Allow,Deny
+    Deny from all
+</Files>

@@ -1,0 +1,43 @@
+.generating-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.generating-indicator span {
+    font-size: 16px;
+    color: #ffffff;
+    margin-right: 10px;
+}
+
+.generating-indicator .dots {
+    display: flex;
+}
+
+.generating-indicator .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    margin: 0 4px;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.generating-indicator .dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.generating-indicator .dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1.0);
+    }
+}

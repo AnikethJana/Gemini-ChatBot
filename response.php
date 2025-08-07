@@ -47,7 +47,10 @@ if (!empty($_POST['message'])) {
 }
 
 function getResponse($webSearch = false) {
-    $api_key = api_key; 
+    // Check if user has provided their own API key via POST
+    $api_key = isset($_POST['user_api_key']) && !empty($_POST['user_api_key']) 
+        ? $_POST['user_api_key'] 
+        : api_key; 
     $url = buildModelUrl(getCurrentModel());
     $system_instruction = system_instruction;
     $data = [
