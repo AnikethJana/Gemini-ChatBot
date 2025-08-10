@@ -1,0 +1,144 @@
+/* Mobile-specific CSS optimizations */
+
+/* Prevent horizontal scrolling on mobile */
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Touch-friendly button sizes */
+    button, .model-switcher-btn {
+        min-height: 44px; /* iOS recommended touch target size */
+        touch-action: manipulation; /* Prevents double-tap zoom */
+    }
+    
+    /* Prevent text selection on buttons */
+    button, .model-switcher-btn, .model-option {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Improve scrolling performance on mobile */
+    .chat-container {
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        will-change: scroll-position;
+    }
+    
+    /* Optimize body for mobile */
+    body {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+    
+    /* Better touch feedback */
+    .model-option:active,
+    button:active,
+    .model-switcher-btn:active {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        transform: scale(0.98);
+    }
+    
+    /* Enhanced form positioning for mobile */
+    .form {
+        bottom: env(safe-area-inset-bottom, 0px);
+        left: env(safe-area-inset-left, 0px);
+        right: env(safe-area-inset-right, 0px);
+    }
+    
+    /* Handle notch areas on modern phones */
+    .header {
+        padding-top: env(safe-area-inset-top, 0);
+        padding-left: env(safe-area-inset-left, 0);
+        padding-right: env(safe-area-inset-right, 0);
+    }
+    
+    /* Fix iOS input styling */
+    input[type="text"], input[type="password"] {
+        -webkit-appearance: none;
+        border-radius: 0;
+        background-clip: padding-box;
+    }
+    
+    /* Modal improvements for mobile */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Prevent background scrolling when modal is open */
+    body.modal-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* Extra optimizations for very small screens */
+@media (max-width: 480px) and (max-height: 667px) {
+    .chat-container {
+        height: calc(var(--vh, 1vh) * 100 - 240px);
+    }
+}
+
+/* Landscape mode optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+    .chat-container {
+        height: calc(var(--vh, 1vh) * 100 - 200px);
+    }
+    
+    .header {
+        padding: 8px 15px 5px 15px;
+        gap: 8px;
+    }
+    
+    .header h1 {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+    
+    .model-switcher-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-height: 36px;
+    }
+    
+    .form {
+        padding: 10px;
+    }
+    
+    .form .input-row {
+        gap: 6px;
+    }
+    
+    .form .button-row {
+        margin-top: 5px;
+        gap: 6px;
+    }
+}
+
+/* High DPI screen optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .form {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    
+    .modal-content {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+}

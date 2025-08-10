@@ -5,10 +5,51 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchBtn = document.getElementById('searchBtn');
     const intro = document.querySelector('.chat-container #intro');
     let webSearchEnabled = false;
+    
+    // Mobile viewport height fix
+    function setViewportHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    // Update viewport height on load and resize
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', function() {
+        setTimeout(setViewportHeight, 100);
+    });
+    
     function scrollToBottom() {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
+    
+    // Improved scrolling for mobile
+    function smoothScrollToBottom() {
+        if (chatContainer) {
+            setTimeout(() => {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 50);
+        }
+    }
+    
     scrollToBottom();
+
+    // Mobile-specific improvements
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Prevent zoom on input focus for iOS
+    if (isMobile) {
+        messageInput.addEventListener('touchstart', function() {
+            // Prevent zoom on iOS when focusing input
+            const viewport = document.querySelector('meta[name=viewport]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no');
+                setTimeout(() => {
+                    viewport.setAttribute('content', 'width=device-width,initial-scale=1');
+                }, 500);
+            }
+        });
+    }
 
     searchBtn.addEventListener('click', function () {
         webSearchEnabled = !webSearchEnabled;
@@ -49,8 +90,8 @@ document.addEventListener('DOMContentLoaded', function () {
             userMessage.insertAdjacentElement('afterend', indicator);
         }
         
-        // Scroll to show the indicator
-        chatContainer.scrollTop = chatContainer.scrollHeight;
+        // Scroll to show the indicator with mobile optimization
+        smoothScrollToBottom();
 
         const formData = new FormData();
         formData.append('message', message);
@@ -108,15 +149,15 @@ function addMessageToChat(message, className) {
     messageDiv.appendChild(contentDiv);
     chatContainer.appendChild(messageDiv);
 
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    smoothScrollToBottom();
 
     if (className === 'bot-message') {
         setTimeout(() => {
             if (typeof parseMarkdown === 'function') {
                 parseMarkdown();
             }
-            // Scroll again after markdown parsing
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            // Scroll again after markdown parsing with mobile optimization
+            smoothScrollToBottom();
         }, 100);
     }
 }

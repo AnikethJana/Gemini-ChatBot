@@ -197,27 +197,91 @@
 
 /* Responsive design for modal */
 @media (max-width: 768px) {
-    .modal-content {
-        width: 95%;
+    .modal {
         padding: 20px;
+    }
+    
+    .modal-content {
+        width: calc(100% - 40px);
+        max-width: 400px;
+        padding: 20px;
+        margin: 0;
+    }
+    
+    .modal-content h2 {
+        font-size: 16px;
+        margin-bottom: 15px;
     }
     
     .modal-input-container {
         flex-direction: column;
         gap: 15px;
+        margin-top: 15px;
     }
     
     .modal input[type="password"] {
         width: 100%;
+        padding: 10px 14px;
+        font-size: 16px; /* Prevents zoom on iOS */
     }
     
     .modal-buttons {
         justify-content: center;
         width: 100%;
+        gap: 12px;
     }
     
     .modal-buttons button {
         flex: 1;
         max-width: 120px;
+        min-width: 80px;
+        padding: 10px;
+    }
+    
+    .validation-message {
+        font-size: 13px;
+        margin-top: 10px;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal {
+        padding: 15px;
+    }
+    
+    .modal-content {
+        width: calc(100% - 30px);
+        padding: 15px;
+    }
+    
+    .modal-content h2 {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    
+    .modal input[type="password"] {
+        padding: 8px 12px;
+        font-size: 16px;
+    }
+    
+    .modal-buttons button {
+        min-width: 70px;
+        padding: 8px;
+    }
+    
+    .validation-message {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+    
+    .success-message {
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+        transform: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 14px;
     }
 }
